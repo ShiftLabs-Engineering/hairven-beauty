@@ -22,7 +22,7 @@ const fetchCart = async () => {
   }
 
   const cart = await getCart(cartId).then(
-    (cart) => cart as CartWithCheckoutStep
+    (cart: any) => cart as CartWithCheckoutStep
   )
 
   if (!cart) {
@@ -33,8 +33,7 @@ const fetchCart = async () => {
     const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id)
     cart.items = enrichedItems as LineItem[]
   }
-
-  cart.checkout_step = cart && getCheckoutStep(cart)
+  if (cart) cart.checkout_step = getCheckoutStep(cart)
 
   return cart
 }

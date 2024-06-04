@@ -24,17 +24,17 @@ export default async function CheckoutForm() {
   )) as CartWithCheckoutStep
 
   if (!cart) {
-    return null
+    return undefined
   }
 
   cart.checkout_step = cart && getCheckoutStep(cart)
 
   // get available shipping methods
-  const availableShippingMethods = await listShippingMethods(
-    cart.region_id
-  ).then((methods) => methods?.filter((m) => !m.is_return))
+  const availableShippingMethods = (
+    await listShippingMethods(cart.region_id)
+  )?.filter((m) => !m.is_return)
 
-  if (!availableShippingMethods) {
+  if (!availableShippingMethods || availableShippingMethods.length === 0) {
     return null
   }
 

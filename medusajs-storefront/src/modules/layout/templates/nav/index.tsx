@@ -8,7 +8,7 @@ import HairvenLogoComponent from "../logo"
 import { BaggageClaim, CircleUser } from "lucide-react"
 
 export default async function Nav() {
-  const regions = await listRegions().then((regions: string) => regions)
+  const regions = await listRegions() //.then((regions: string) => regions)
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
