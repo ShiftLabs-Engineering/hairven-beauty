@@ -15,13 +15,15 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CountrySelect from "../country-select"
 import { Menu } from "lucide-react"
 
-const SideMenuItems = {
+let SideMenuItems = {
   Home: "/",
   Store: "/store",
-  Search: "/search",
   Account: "/account",
   Cart: "/cart",
 }
+SideMenuItems = Boolean(process.env.FEATURE_SEARCH_ENABLED)
+  ? { ...SideMenuItems, ...{ Search: "/search" } }
+  : SideMenuItems
 
 const SideMenu = ({ regions }: { regions: Region[] | null }) => {
   const toggleState = useToggleState()

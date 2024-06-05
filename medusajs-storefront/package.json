@@ -36,6 +36,7 @@
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^3.5.0",
     "algoliasearch": "^4.23.3",
+    "axios": "^1.7.2",
     "lodash": "^4.17.21",
     "lucide-react": "^0.383.0",
     "medusa-react": "^9.0.17",
