@@ -1,8 +1,11 @@
 {
   "compilerOptions": {
-    "allowUnusedLabels": true,
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,12 +18,17 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "types": ["cypress"],
     "baseUrl": "./src",
     "paths": {
-      "@lib/*": ["lib/*"],
-      "@modules/*": ["modules/*"],
-      "@pages/*": ["pages/*"]
+      "@lib/*": [
+        "lib/*"
+      ],
+      "@modules/*": [
+        "modules/*"
+      ],
+      "@pages/*": [
+        "pages/*"
+      ]
     },
     "plugins": [
       {
@@ -32,17 +40,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "cypress/support/index.js",
-    "cypress/support/commands.js",
-    "cypress/integration/product.spec.js",
-    "cypress/plugins/index.js",
     ".next/types/**/*.ts"
-, "script/awaitBackendReady.js", "script/awaitBackendReady.js"  ],
+  ],
   "exclude": [
     "node_modules",
     ".next",
     ".nyc_output",
-    "cypress-coverage",
     "coverage",
     "jest-coverage"
   ]

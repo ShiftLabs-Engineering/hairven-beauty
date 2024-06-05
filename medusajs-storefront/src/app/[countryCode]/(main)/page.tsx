@@ -8,9 +8,9 @@ import { ProductCollectionWithPreviews } from "types/global"
 import { cache } from "react"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "Hairven Beauty Store",
   description:
-    "A performant frontend ecommerce starter template with Next.js 14 and Medusa.",
+    "Online store and presence for hairvenbeauty.com. Shop for hair care, skin care, and beauty products.",
 }
 
 const getCollectionsWithProducts = cache(
@@ -59,6 +59,8 @@ export default async function Home({
 }: {
   params: { countryCode: string }
 }) {
+  console.log(countryCode)
+
   const collections = await getCollectionsWithProducts(countryCode)
   const region = await getRegion(countryCode)
 

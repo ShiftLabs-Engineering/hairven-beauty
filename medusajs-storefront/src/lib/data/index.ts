@@ -1,5 +1,3 @@
-"use server"
-
 import {
   ProductCategory,
   ProductCollection,
@@ -46,6 +44,8 @@ const getMedusaHeaders = (tags: string[] = []) => {
 
   if (token) {
     headers.authorization = `Bearer ${token}`
+  } else {
+    headers.authorization = ""
   }
 
   return headers
@@ -199,22 +199,11 @@ export const retrieveOrder = cache(async function (id: string) {
 })
 
 // Shipping actions
-export const listShippingMethods = cache(async function listShippingMethods(
-  regionId: string,
-  productIds?: string[]
-) {
+export const listCartShippingMethods = cache(async function (cartId: string) {
   const headers = getMedusaHeaders(["shipping"])
 
-  const product_ids = productIds?.join(",")
-
   return medusaClient.shippingOptions
-    .list(
-      {
-        region_id: regionId,
-        product_ids,
-      },
-      headers
-    )
+    .listCartOptions(cartId, headers)
     .then(({ shipping_options }) => shipping_options)
     .catch((err) => {
       console.log(err)
@@ -246,7 +235,13 @@ export async function getToken(credentials: StorePostAuthReq) {
       },
     })
     .then(({ access_token }) => {
-      access_token && cookies().set("_medusa_jwt", access_token)
+      access_token &&
+        cookies().set("_medusa_jwt", access_token, {
+          maxAge: 60 * 60 * 24 * 7,
+          httpOnly: true,
+          sameSite: "strict",
+          secure: process.env.NODE_ENV === "production",
+        })
       return access_token
     })
     .catch((err) => {
@@ -345,7 +340,7 @@ export const listCustomerOrders = cache(async function (
 })
 
 // Region actions
-export const listRegions = cache(async function (): Promise<Region[] | null> {
+export const listRegions = cache(async function () {
   return medusaClient.regions
     .list()
     .then(({ regions }) => regions)
@@ -355,9 +350,7 @@ export const listRegions = cache(async function (): Promise<Region[] | null> {
     })
 })
 
-export const retrieveRegion = cache(async function (
-  id: string
-): Promise<void | Region> {
+export const retrieveRegion = cache(async function (id: string) {
   const headers = getMedusaHeaders(["regions"])
 
   return medusaClient.regions
@@ -368,9 +361,7 @@ export const retrieveRegion = cache(async function (
 
 const regionMap = new Map<string, Region>()
 
-export const getRegion = cache(async function (
-  countryCode: string
-): Promise<Region | null | undefined> {
+export const getRegion = cache(async function (countryCode: string) {
   try {
     if (regionMap.has(countryCode)) {
       return regionMap.get(countryCode)
@@ -382,7 +373,7 @@ export const getRegion = cache(async function (
       return null
     }
 
-    regions.forEach((region: Region): void => {
+    regions.forEach((region) => {
       region.countries.forEach((c) => {
         regionMap.set(c.iso_2, region)
       })
@@ -390,7 +381,7 @@ export const getRegion = cache(async function (
 
     const region = countryCode
       ? regionMap.get(countryCode)
-      : regionMap.get("us")
+      : regionMap.get("za")
 
     return region
   } catch (e: any) {
@@ -406,7 +397,7 @@ export const getProductsById = cache(async function ({
 }: {
   ids: string[]
   regionId: string
-}): Promise<PricedProduct[] | null> {
+}) {
   const headers = getMedusaHeaders(["products"])
 
   return medusaClient.products
@@ -424,7 +415,7 @@ export const retrievePricedProductById = cache(async function ({
 }: {
   id: string
   regionId: string
-}): Promise<PricedProduct | null> {
+}) {
   const headers = getMedusaHeaders(["products"])
 
   return medusaClient.products
@@ -451,11 +442,6 @@ export const getProductByHandle = cache(async function (
   return { product }
 })
 
-export type GetProductListType = {
-  response: { products: ProductPreviewType[]; count: number }
-  nextPage: number | null
-  queryParams?: StoreGetProductsParams
-}
 export const getProductsList = cache(async function ({
   pageParam = 0,
   queryParams,
@@ -464,7 +450,11 @@ export const getProductsList = cache(async function ({
   pageParam?: number
   queryParams?: StoreGetProductsParams
   countryCode: string
-}): Promise<GetProductListType> {
+}): Promise<{
+  response: { products: ProductPreviewType[]; count: number }
+  nextPage: number | null
+  queryParams?: StoreGetProductsParams
+}> {
   const limit = queryParams?.limit || 12
 
   const region = await getRegion(countryCode)
@@ -501,11 +491,6 @@ export const getProductsList = cache(async function ({
   }
 })
 
-export type GetProductListWithSortType = {
-  response: { products: ProductPreviewType[]; count: number }
-  nextPage: number | null
-  queryParams?: StoreGetProductsParams
-}
 export const getProductsListWithSort = cache(
   async function getProductsListWithSort({
     page = 0,
@@ -517,7 +502,11 @@ export const getProductsListWithSort = cache(
     queryParams?: StoreGetProductsParams
     sortBy?: SortOptions
     countryCode: string
-  }): Promise<GetProductListWithSortType> {
+  }): Promise<{
+    response: { products: ProductPreviewType[]; count: number }
+    nextPage: number | null
+    queryParams?: StoreGetProductsParams
+  }> {
     const limit = queryParams?.limit || 12
 
     const {
@@ -531,17 +520,13 @@ export const getProductsListWithSort = cache(
       countryCode,
     })
 
-    const sortedProducts: ProductPreviewType[] = sortProducts(products, sortBy)
+    const sortedProducts = sortProducts(products, sortBy)
 
-    const pageParam: number = (page - 1) * limit
+    const pageParam = (page - 1) * limit
 
-    const nextPage: number | null =
-      count > pageParam + limit ? pageParam + limit : null
+    const nextPage = count > pageParam + limit ? pageParam + limit : null
 
-    const paginatedProducts: ProductPreviewType[] = sortedProducts.slice(
-      pageParam,
-      pageParam + limit
-    )
+    const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
 
     return {
       response: {
@@ -554,8 +539,6 @@ export const getProductsListWithSort = cache(
   }
 )
 
-export type GetHomePageProductsType = Map<string, ProductPreviewType[]>
-
 export const getHomepageProducts = cache(async function getHomepageProducts({
   collectionHandles,
   currencyCode,
@@ -564,11 +547,10 @@ export const getHomepageProducts = cache(async function getHomepageProducts({
   collectionHandles?: string[]
   currencyCode: string
   countryCode: string
-}): Promise<GetHomePageProductsType> {
+}) {
   const collectionProductsMap = new Map<string, ProductPreviewType[]>()
 
-  const { collections }: { collections: ProductCollection[] } =
-    await getCollectionsList(0, 3)
+  const { collections } = await getCollectionsList(0, 3)
 
   if (!collectionHandles) {
     collectionHandles = collections.map((collection) => collection.handle)
@@ -601,14 +583,10 @@ export const retrieveCollection = cache(async function (id: string) {
     })
 })
 
-export type GetCollectionsListCacheType = {
-  collections: ProductCollection[]
-  count: number
-}
 export const getCollectionsList = cache(async function (
   offset: number = 0,
   limit: number = 100
-): Promise<GetCollectionsListCacheType> {
+): Promise<{ collections: ProductCollection[]; count: number }> {
   const collections = await medusaClient.collections
     .list({ limit, offset }, { next: { tags: ["collections"] } })
     .then(({ collections }) => collections)
@@ -654,7 +632,7 @@ export const getProductsByCollectionHandle = cache(
     nextPage: number | null
   }> {
     const { id } = await getCollectionByHandle(handle).then(
-      (collection: ProductCollection) => collection
+      (collection) => collection
     )
 
     const { response, nextPage } = await getProductsList({
@@ -662,8 +640,8 @@ export const getProductsByCollectionHandle = cache(
       queryParams: { collection_id: [id], limit },
       countryCode,
     })
-      .then((res: GetProductListType) => res)
-      .catch((err: Error) => {
+      .then((res) => res)
+      .catch((err) => {
         throw err
       })
 
@@ -690,14 +668,13 @@ export const listCategories = cache(async function () {
     })
 })
 
-export type GetCategoryListCacheType = {
-  product_categories: ProductCategoryWithChildren[]
-  count: number
-}
 export const getCategoriesList = cache(async function (
   offset: number = 0,
   limit: number = 100
-): Promise<GetCategoryListCacheType> {
+): Promise<{
+  product_categories: ProductCategoryWithChildren[]
+  count: number
+}> {
   const { product_categories, count } = await medusaClient.productCategories
     .list({ limit, offset }, { next: { tags: ["categories"] } })
     .catch((err) => {
@@ -710,13 +687,12 @@ export const getCategoriesList = cache(async function (
   }
 })
 
-export type GetCategoryByHandleCacheType = {
-  product_categories: ProductCategoryWithChildren[]
-}
 export const getCategoryByHandle = cache(async function (
   categoryHandle: string[]
-): Promise<GetCategoryByHandleCacheType> {
-  const handles = categoryHandle.map((_handle: string, index: number) =>
+): Promise<{
+  product_categories: ProductCategoryWithChildren[]
+}> {
+  const handles = categoryHandle.map((handle: string, index: number) =>
     categoryHandle.slice(0, index + 1).join("/")
   )
 
@@ -761,7 +737,7 @@ export const getProductsByCategoryHandle = cache(async function ({
   nextPage: number | null
 }> {
   const { id } = await getCategoryByHandle([handle]).then(
-    (res: GetCategoryByHandleCacheType) => res.product_categories[0]
+    (res) => res.product_categories[0]
   )
 
   const { response, nextPage } = await getProductsList({
@@ -769,8 +745,8 @@ export const getProductsByCategoryHandle = cache(async function ({
     queryParams: { category_id: [id] },
     countryCode,
   })
-    .then((res: GetProductListType) => res)
-    .catch((err: Error) => {
+    .then((res) => res)
+    .catch((err) => {
       throw err
     })
 
