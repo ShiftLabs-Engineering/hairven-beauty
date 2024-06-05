@@ -8,7 +8,7 @@ import HairvenLogoComponent from "../logo"
 import { BaggageClaim, CircleUser } from "lucide-react"
 
 export default async function Nav() {
-  const regions = await listRegions().then((regions: string) => regions)
+  const regions = await listRegions()
 
   return (
     <div className="sticky inset-x-0 top-0 z-50 group">
@@ -24,7 +24,7 @@ export default async function Nav() {
 
           <div className="flex items-center justify-end flex-1 h-full gap-x-6 basis-0">
             <div className="items-center hidden h-full small:flex gap-x-6">
-              {Boolean(process.env.FEATURE_SEARCH_ENABLED)===true && (
+              {Boolean(process.env.FEATURE_SEARCH_ENABLED) === true && (
                 <LocalizedClientLink
                   className="hover:text-ui-fg-base"
                   href="/search"
