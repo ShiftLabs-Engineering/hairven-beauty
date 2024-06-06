@@ -1,4 +1,4 @@
-import { Github } from "@medusajs/icons"
+import { ShoppingBag } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
 
 const Hero = () => {
@@ -25,7 +25,7 @@ const Hero = () => {
         >
           <Button variant="secondary">
             Get Shopping
-            <Github />
+            <ShoppingBag />
           </Button>
         </a>
       </div>
