@@ -89,6 +89,12 @@ const plugins = [
 			secret_access_key: process.env.MINIO_SECRET_KEY,
 		},
 	},
+	{
+		resolve: `medusa-plugin-dashboard`,
+		options: {
+			enableUI: true,
+		},
+	},
 ];
 
 const modules = {
