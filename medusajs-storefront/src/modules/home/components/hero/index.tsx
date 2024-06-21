@@ -1,10 +1,10 @@
 import { ShoppingBag } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
 import EmblaCarousel from "../embla-carousel/"
-import { EmblaOptionsType } from "embla-carousel"
+import type { EmblaOptionsType } from "embla-carousel"
 
 const Hero = () => {
-  const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true }
+  const OPTIONS: EmblaOptionsType | undefined = { dragFree: true, loop: true }
   const SLIDE_COUNT = 5
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
