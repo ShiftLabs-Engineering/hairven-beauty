@@ -9,6 +9,14 @@ const nextConfig = withStoreConfig({
   reactStrictMode: true,
   images: {
     remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "bucket.hairvenbeauty.com",
+    },
+    {
+      protocol: "https",
+      hostname: "bucket-production-e9bf.up.railway.app",
+    },
       {
         protocol: "http",
         hostname: "localhost",
@@ -25,10 +33,7 @@ const nextConfig = withStoreConfig({
         protocol: "https",
         hostname: "medusa-server-testing.s3.us-east-1.amazonaws.com",
       },
-      {
-        protocol: "https",
-        hostname: "https://bucket.hairvenbeauty.com",
-      },
+
     ],
   },
 })
