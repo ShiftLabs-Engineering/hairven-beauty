@@ -4,9 +4,7 @@
   "private": true,
   "author": "ShiftLabs",
   "description": "Hairven Beauty Frontend",
-  "keywords": [
-    "medusa-storefront"
-  ],
+  "keywords": ["medusa-storefront"],
   "scripts": {
     "dev": "next dev -p 8000",
     "build": "next build",
