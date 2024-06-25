@@ -14,6 +14,9 @@ import OptionSelect from "@modules/products/components/option-select"
 
 import MobileActions from "../mobile-actions"
 import ProductPrice from "../product-price"
+import type { ProductOption } from "@medusajs/product"
+import { randomUUID } from "crypto"
+import { uuidv7 } from "uuidv7"
 
 type ProductActionsProps = {
   product: PricedProduct
@@ -135,6 +138,22 @@ export default function ProductActions({
     setIsAdding(false)
   }
 
+  const getCapSizeOptions = (product: PricedProduct): any => {
+    const productOption: any[] = [
+      {
+        id: "setCapSize",
+        title: "Set Cap Size",
+        values: [
+          { value: "S", id: uuidv7() },
+          { value: "M", id: uuidv7() },
+          { value: "L", id: uuidv7() },
+          { value: "XL", id: uuidv7() },
+        ],
+      },
+    ]
+    return productOption
+  }
+
   return (
     <>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
@@ -155,6 +174,21 @@ export default function ProductActions({
                   </div>
                 )
               })}
+              {!!product.metadata?.setCapSize &&
+                getCapSizeOptions(product).map((option: any) => {
+                  return (
+                    <div key={option.id}>
+                      <OptionSelect
+                        option={option}
+                        current={options[option.id]}
+                        updateOption={updateOptions}
+                        title={option.title}
+                        data-testid="product-options"
+                        disabled={!!disabled || isAdding}
+                      />
+                    </div>
+                  )
+                })}
               <Divider />
             </div>
           )}
@@ -173,8 +207,8 @@ export default function ProductActions({
           {!variant
             ? "Select variant"
             : !inStock
-            ? "Out of stock"
-            : "Add to cart"}
+              ? "Out of stock"
+              : "Add to cart"}
         </Button>
         <MobileActions
           product={product}
