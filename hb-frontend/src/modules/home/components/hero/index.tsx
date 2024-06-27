@@ -13,10 +13,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 text-center small:p-16 p-8">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
 
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
+        <a href="/store" target="_blank">
           <Button variant="primary" size="large">
             Get Shopping
             <ShoppingBag />

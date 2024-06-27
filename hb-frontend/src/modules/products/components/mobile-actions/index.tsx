@@ -19,7 +19,9 @@ type MobileActionsProps = {
   variant?: PricedVariant
   region: Region
   options: Record<string, string>
+  capOptions: any
   updateOptions: (update: Record<string, string>) => void
+  updateCapOptions: (update: Record<string, string>) => void
   inStock?: boolean
   handleAddToCart: () => void
   isAdding?: boolean
@@ -32,7 +34,9 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   variant,
   region,
   options,
+  capOptions,
   updateOptions,
+  updateCapOptions,
   inStock,
   handleAddToCart,
   isAdding,
@@ -117,6 +121,16 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   </span>
                   <ChevronDown />
                 </div>
+                {/* {!!product.metadata?.setCapSize && (
+                  <div className="flex items-center justify-between w-full">
+                    <span>
+                      {!!product.metadata?.setCapSize
+                        ? Object.values(capOptions).join(" / ")
+                        : "Select Cap Size"}
+                    </span>
+                    <ChevronDown />
+                  </div>
+                )} */}
               </Button>
               <Button
                 onClick={handleAddToCart}
@@ -128,8 +142,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 {!variant
                   ? "Select variant"
                   : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
+                    ? "Out of stock"
+                    : "Add to cart"}
               </Button>
             </div>
           </div>
@@ -183,6 +197,24 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                                 option={option}
                                 current={options[option.id]}
                                 updateOption={updateOptions}
+                                title={option.title}
+                                disabled={optionsDisabled}
+                              />
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )}
+
+                    {!!product.metadata?.setCapSize && (
+                      <div className="flex flex-col gap-y-6 mt-4">
+                        {(capOptions || []).map((option: any) => {
+                          return (
+                            <div key={option.id}>
+                              <OptionSelect
+                                option={option}
+                                current={capOptions[option.id]}
+                                updateOption={updateCapOptions}
                                 title={option.title}
                                 disabled={optionsDisabled}
                               />

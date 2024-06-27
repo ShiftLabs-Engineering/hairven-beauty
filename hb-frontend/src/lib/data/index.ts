@@ -89,15 +89,19 @@ export async function addItem({
   cartId,
   variantId,
   quantity,
+  capSize,
 }: {
   cartId: string
   variantId: string
   quantity: number
+  capSize?: string
 }) {
   const headers = getMedusaHeaders(["cart"])
 
+  const productPayload: any = { variant_id: variantId, quantity }
+  if (capSize) productPayload.metadata = { capSize }
   return medusaClient.carts.lineItems
-    .create(cartId, { variant_id: variantId, quantity }, headers)
+    .create(cartId, productPayload, headers)
     .then(({ cart }) => cart)
     .catch((err) => {
       console.log(err)
@@ -109,15 +113,19 @@ export async function updateItem({
   cartId,
   lineId,
   quantity,
+  capSize,
 }: {
   cartId: string
   lineId: string
   quantity: number
+  capSize?: string
 }) {
   const headers = getMedusaHeaders(["cart"])
 
+  const updatedPayload: any = { quantity }
+  if (capSize) updatedPayload.metadata = { capSize }
   return medusaClient.carts.lineItems
-    .update(cartId, lineId, { quantity }, headers)
+    .update(cartId, lineId, updatedPayload, headers)
     .then(({ cart }) => cart)
     .catch((err) => medusaError(err))
 }

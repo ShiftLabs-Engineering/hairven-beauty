@@ -79,10 +79,12 @@ export async function addToCart({
   variantId,
   quantity,
   countryCode,
+  capSize,
 }: {
   variantId: string
   quantity: number
   countryCode: string
+  capSize?: string
 }) {
   const cart = await getOrSetCart(countryCode).then((cart) => cart)
 
@@ -95,7 +97,7 @@ export async function addToCart({
   }
 
   try {
-    await addItem({ cartId: cart.id, variantId, quantity })
+    await addItem({ cartId: cart.id, variantId, quantity, capSize })
     revalidateTag("cart")
   } catch (e) {
     return "Error adding item to cart"

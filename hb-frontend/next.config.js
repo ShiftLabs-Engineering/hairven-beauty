@@ -11,16 +11,21 @@ const nextConfig = withStoreConfig({
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
         hostname: "bucket.hairvenbeauty.com",
       },
       {
         protocol: "https",
         hostname: "bucket-production-e9bf.up.railway.app",
       },
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-      },
+
       {
         protocol: "http",
         hostname: "localhost",

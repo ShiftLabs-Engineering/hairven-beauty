@@ -60,7 +60,15 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
       </Table.Cell>
 
       <Table.Cell className="text-left">
-        <Text className="txt-medium-plus text-ui-fg-base" data-testid="product-title">{item.title}</Text>
+        <Text
+          className="txt-medium-plus text-ui-fg-base"
+          data-testid="product-title"
+        >
+          {item.title}
+        </Text>
+        {!!item.metadata?.capSize && (
+          <Text>Cap Size: {item.metadata?.capSize.toString()}</Text>
+        )}
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
       </Table.Cell>
 

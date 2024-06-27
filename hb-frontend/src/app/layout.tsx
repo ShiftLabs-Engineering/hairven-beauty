@@ -1,12 +1,14 @@
 import { Metadata } from "next"
 import "styles/globals.css"
+import "linq-extensions"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 
 export const metadata: Metadata = {
   title: "HairvenBeauty Store | Luxury Hair for Boss Ladies",
   metadataBase: new URL(BASE_URL),
-  category: "wigs,hair extensions,wig rejuvenation and treatment,customised wigs,100% human hair",
+  category:
+    "wigs,hair extensions,wig rejuvenation and treatment,customised wigs,100% human hair",
   description:
     "Luxury hair for boss ladies. Best in class wigs and extensions. 100% human hair, bone straight, curls. Free shipping. Easy returns. Shop now!",
   abstract:

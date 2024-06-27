@@ -1,5 +1,5 @@
 "use client"
-
+import "linq-extensions"
 import { Region } from "@medusajs/medusa"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { Button } from "@medusajs/ui"
@@ -38,10 +38,26 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
+  const [capSizes, setCapSizes] = useState<Record<string, string>>({})
+  const [capSize, setCapSize] = useState<string>("")
 
   const countryCode = useParams().countryCode as string
 
   const variants = product.variants
+  const capSizeOptions: any[] = useMemo(() => {
+    return [
+      {
+        id: "setCapSize",
+        title: "Cap Size",
+        values: [
+          { value: "S", id: "S" },
+          { value: "M", id: "M" },
+          { value: "L", id: "L" },
+          { value: "XL", id: "XL" },
+        ],
+      },
+    ]
+  }, [])
 
   // initialize the option state
   useEffect(() => {
@@ -53,6 +69,16 @@ export default function ProductActions({
 
     setOptions(optionObj)
   }, [product])
+
+  useEffect(() => {
+    const optionObj: Record<string, string> = {}
+
+    for (const option of capSizeOptions || []) {
+      Object.assign(optionObj, { [option.id]: undefined })
+    }
+
+    setCapSizes(optionObj)
+  }, [capSizeOptions])
 
   // memoized record of the product's variants
   const variantRecord = useMemo(() => {
@@ -98,6 +124,11 @@ export default function ProductActions({
     setOptions({ ...options, ...update })
   }
 
+  const updateCapOptionsMetadata = (update: Record<string, string>) => {
+    console.log("update selected", update)
+    setCapSize(update.setCapSize)
+  }
+
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
     // If we don't manage inventory, we can always add to cart
@@ -133,25 +164,10 @@ export default function ProductActions({
       variantId: variant.id,
       quantity: 1,
       countryCode,
+      capSize,
     })
 
     setIsAdding(false)
-  }
-
-  const getCapSizeOptions = (product: PricedProduct): any => {
-    const productOption: any[] = [
-      {
-        id: "setCapSize",
-        title: "Set Cap Size",
-        values: [
-          { value: "S", id: uuidv7() },
-          { value: "M", id: uuidv7() },
-          { value: "L", id: uuidv7() },
-          { value: "XL", id: uuidv7() },
-        ],
-      },
-    ]
-    return productOption
   }
 
   return (
@@ -175,13 +191,13 @@ export default function ProductActions({
                 )
               })}
               {!!product.metadata?.setCapSize &&
-                getCapSizeOptions(product).map((option: any) => {
+                capSizeOptions.map((option: any) => {
                   return (
                     <div key={option.id}>
                       <OptionSelect
                         option={option}
-                        current={options[option.id]}
-                        updateOption={updateOptions}
+                        current={capSize}
+                        updateOption={updateCapOptionsMetadata}
                         title={option.title}
                         data-testid="product-options"
                         disabled={!!disabled || isAdding}
@@ -215,7 +231,9 @@ export default function ProductActions({
           variant={variant}
           region={region}
           options={options}
+          capOptions={capSizeOptions}
           updateOptions={updateOptions}
+          updateCapOptions={updateCapOptionsMetadata}
           inStock={inStock}
           handleAddToCart={handleAddToCart}
           isAdding={isAdding}
