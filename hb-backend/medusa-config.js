@@ -123,9 +123,14 @@ const projectConfig = {
 	redis_url: REDIS_URL,
 };
 
+/** @type {import('@medusajs/medusa').ConfigModule["featureFlags"]} */
+const featureFlags = {
+	product_categories: true,
+};
 /** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
 	projectConfig,
 	plugins,
 	modules,
+	featureFlags,
 };
