@@ -14,7 +14,7 @@ const Hero = () => {
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
 
         <a href="/store">
-          <Button variant="primary" size="large">
+          <Button variant="primary" size="xlarge">
             Get Shopping
             <ShoppingBag />
           </Button>
