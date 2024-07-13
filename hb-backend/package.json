@@ -72,14 +72,23 @@
 				"tsconfig": "tsconfig.spec.json"
 			}
 		},
-		"moduleFileExtensions": ["js", "json", "ts"],
-		"testPathIgnorePatterns": ["/node_modules/", "<rootDir>/node_modules/"],
+		"moduleFileExtensions": [
+			"js",
+			"json",
+			"ts"
+		],
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			"<rootDir>/node_modules/"
+		],
 		"rootDir": "src",
 		"testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|js)$",
 		"transform": {
 			".ts": "ts-jest"
 		},
-		"collectCoverageFrom": ["**/*.(t|j)s"],
+		"collectCoverageFrom": [
+			"**/*.(t|j)s"
+		],
 		"coverageDirectory": "./coverage",
 		"testEnvironment": "node"
 	},
@@ -90,5 +99,6 @@
 	},
 	"resolutions": {
 		"@medusajs/ui-preset": "^1.1.2"
-	}
+	},
+	"packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
 }

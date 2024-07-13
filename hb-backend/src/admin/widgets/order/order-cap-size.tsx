@@ -100,7 +100,7 @@ const OrderCapSizeWidget = ({ order }: OrderDetailsWidgetProps) => {
 };
 
 export const config: WidgetConfig = {
-	zone: "order.details.before",
+	zone: "order.details.after",
 };
 
 export default OrderCapSizeWidget;
