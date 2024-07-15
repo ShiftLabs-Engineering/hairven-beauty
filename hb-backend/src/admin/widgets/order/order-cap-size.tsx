@@ -33,7 +33,7 @@ const Item = ({ item }: { item: LineItem }) => {
 			className="text-ui-fg-subtle grid grid-cols-2 items-start gap-x-4 px-6 py-4"
 		>
 			<div className="flex items-start gap-x-4">
-				<Thumbnail src={item.thumbnail} />
+				{/* <Thumbnail src={item.thumbnail} /> */}
 				<div>
 					<Text
 						size="small"
@@ -94,13 +94,13 @@ const OrderCapSizeWidget = ({ order }: OrderDetailsWidgetProps) => {
 	return (
 		<Container className="divide-y divide-dashed p-0">
 			<Header order={order} />
-			{/* <ItemBreakdown order={order} /> */}
+			<ItemBreakdown order={order} />
 		</Container>
 	);
 };
 
 export const config: WidgetConfig = {
-	zone: "order.details.after",
+	zone: "order.details.before",
 };
 
 export default OrderCapSizeWidget;
