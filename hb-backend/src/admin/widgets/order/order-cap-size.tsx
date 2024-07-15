@@ -32,7 +32,7 @@ const Item = ({ item }: { item: LineItem }) => {
 			key={item.id}
 			className="text-ui-fg-subtle grid grid-cols-2 items-start gap-x-4 px-6 py-4"
 		>
-			{/* <div className="flex items-start gap-x-4">
+			<div className="flex items-start gap-x-4">
 				<Thumbnail src={item.thumbnail} />
 				<div>
 					<Text
@@ -43,9 +43,9 @@ const Item = ({ item }: { item: LineItem }) => {
 					>
 						{item.title}
 					</Text>
-					<Text size="small">
+					{/* <Text size="small">
 						{item.variant?.options.map((o: any) => o.value).join(" · ")}
-					</Text>
+					</Text> */}
 				</div>
 			</div>
 			<div className="grid grid-cols-2 items-center gap-x-4">
@@ -55,7 +55,7 @@ const Item = ({ item }: { item: LineItem }) => {
 				<div className="flex items-center justify-end font-semibold">
 					<Text size="small">{item.metadata?.capSize.toString() || "N/A"}</Text>
 				</div>
-			</div> */}
+			</div>
 		</div>
 	);
 };
