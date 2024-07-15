@@ -94,7 +94,7 @@ const OrderCapSizeWidget = ({ order }: OrderDetailsWidgetProps) => {
 	return (
 		<Container className="divide-y divide-dashed p-0">
 			<Header order={order} />
-			<ItemBreakdown order={order} />
+			{/* <ItemBreakdown order={order} /> */}
 		</Container>
 	);
 };
