@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback } from "react"
 import { EmblaOptionsType, EmblaCarouselType } from "embla-carousel"
 import { DotButton, useDotButton } from "./embla-carousel-dot-button"
 import {
@@ -18,53 +18,32 @@ type PropType = {
 }
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-	const { slides, options } = props
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ playOnInit: true, delay: 3000 })
-  ])
-  const [isPlaying, setIsPlaying] = useState(false)
+  const { slides, options } = props
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({ playOnInit: true, delay: 3000 })])
+
+  const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
+    const autoplay = emblaApi?.plugins()?.autoplay
+    if (!autoplay) return
+
+    const resetOrStop =
+      autoplay.options.stopOnInteraction === false
+        ? autoplay.reset
+        : autoplay.stop
+
+    resetOrStop()
+  }, [])
+
+  const { selectedIndex, scrollSnaps, onDotButtonClick } = useDotButton(
+    emblaApi,
+    onNavButtonClick
+  )
 
   const {
     prevBtnDisabled,
     nextBtnDisabled,
     onPrevButtonClick,
-    onNextButtonClick
-  } = usePrevNextButtons(emblaApi)
-
-  const onButtonAutoplayClick = useCallback(
-    (callback: () => void) => {
-      const autoplay = emblaApi?.plugins()?.autoplay
-      if (!autoplay) return
-
-      const resetOrStop =
-        autoplay.options.stopOnInteraction === false
-          ? autoplay.reset
-          : autoplay.stop
-
-      resetOrStop()
-      callback()
-    },
-    [emblaApi]
-  )
-
-  const toggleAutoplay = useCallback(() => {
-    const autoplay = emblaApi?.plugins()?.autoplay
-    if (!autoplay) return
-
-    const playOrStop = autoplay.isPlaying() ? autoplay.stop : autoplay.play
-    playOrStop()
-  }, [emblaApi])
-
-  useEffect(() => {
-    const autoplay = emblaApi?.plugins()?.autoplay
-    if (!autoplay) return
-
-    setIsPlaying(autoplay.isPlaying())
-    emblaApi
-      .on('autoplay:play', () => setIsPlaying(true))
-      .on('autoplay:stop', () => setIsPlaying(false))
-      .on('reInit', () => setIsPlaying(autoplay.isPlaying()))
-  }, [emblaApi])
+    onNextButtonClick,
+  } = usePrevNextButtons(emblaApi, onNavButtonClick)
 
   return (
     <section className="!w-full !h-full">
@@ -98,11 +77,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
-        <button className="embla__play" onClick={toggleAutoplay} type="button">
-                  {isPlaying ? 'Stop' : 'Start'}
-        </button>
 
-        {/* <div className="embla__dots">
+        <div className="embla__dots">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
@@ -114,7 +90,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               )}
             />
           ))}
-        </div> */}
+        </div>
       </div>
     </section>
   )
