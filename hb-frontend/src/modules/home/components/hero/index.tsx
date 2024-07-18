@@ -10,9 +10,9 @@ const Hero = () => {
   }
   const SLIDE_COUNT = 5
   const emblaSlides = [
-    'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/dobqyutlkwky64jpzzov',
-    'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/ryo4cyqv60wa2opmt1ab',
-     'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/fmvstdaahd1u0meegfot',
+    'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/h8iz87yva1tkppnnlth6',
+    'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/mmifrlnojtmceogzaztw',
+     'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/lwv6hzfniiifgzkjuyer',
   ]
 
   return (
