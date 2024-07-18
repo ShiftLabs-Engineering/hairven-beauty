@@ -63,7 +63,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                   fill
                   sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
                   style={{
-                    objectFit: "fill",
+                    objectFit: "contain",
                   }}
                 />
               </div>
