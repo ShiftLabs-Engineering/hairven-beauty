@@ -19,7 +19,7 @@ type PropType = {
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({ playOnInit: true, delay: 3000 })])
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay({ playOnInit: true, delay: 3000,stopOnInteraction: false,stopOnFocusIn: false, })])
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
     const autoplay = emblaApi?.plugins()?.autoplay
@@ -46,9 +46,9 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   } = usePrevNextButtons(emblaApi, onNavButtonClick)
 
   return (
-    <section className="!w-full !h-full">
-      <div className="w-full h-full overflow-hidden" ref={emblaRef}>
-        <div className="flex w-full h-full">
+    <section className="!w-full !h-full overflow-hidden" ref={emblaRef}>
+      {/* <div className="w-full h-full overflow-hidden" ref={emblaRef}>
+        <div className="flex w-full h-full"> */}
           {slides.map((url, index) => (
             <div
               className="flex-none items-center justify-center  w-full h-full"
@@ -69,8 +69,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
               </div>
             </div>
           ))}
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
 
       <div className="embla__controls">
         <div className="embla__buttons">
