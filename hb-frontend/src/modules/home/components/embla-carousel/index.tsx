@@ -10,9 +10,10 @@ import {
 } from "./embla-carousel-arrow-buttons"
 import Autoplay from "embla-carousel-autoplay"
 import useEmblaCarousel from "embla-carousel-react"
+import Image from "next/image"
 
 type PropType = {
-  slides: number[]
+  slides: string[]
   options?: EmblaOptionsType
 }
 
@@ -48,13 +49,23 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     <section className="!w-full !h-full">
       <div className="w-full h-full overflow-hidden" ref={emblaRef}>
         <div className="flex w-full h-full">
-          {slides.map((index) => (
+          {slides.map((url, index) => (
             <div
               className="flex-none items-center justify-center  w-full h-full"
               key={index}
             >
               <div className="flex items-center justify-center h-full w-full font-extrabold text-8xl">
-                {index + 1}
+                <Image
+                  src={url}
+                  priority={index <= 2 ? true : false}
+                  className="absolute inset-0 rounded-rounded"
+                  alt={`What is hot ${index + 1}`}
+                  fill
+                  sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
+                  style={{
+                    objectFit: "cover",
+                  }}
+                />
               </div>
             </div>
           ))}
