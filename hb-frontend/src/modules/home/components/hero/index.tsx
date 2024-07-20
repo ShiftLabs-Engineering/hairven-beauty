@@ -20,7 +20,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-10  flex flex-col items-center justify-center gap-6 text-center small:p-2 p-4">
       	<EmblaCarousel slides={SLIDES} options={emblaOptions} />
         <a href="/store">
-          <Button variant="primary" size="xlarge">
+          <Button variant="danger" size="xlarge">
             Get Shopping
             <ShoppingBag />
           </Button>
