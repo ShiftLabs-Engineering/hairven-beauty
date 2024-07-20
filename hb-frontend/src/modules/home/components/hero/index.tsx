@@ -8,25 +8,26 @@ const Hero = () => {
     dragFree: true,
     loop: true,
   }
-  const SLIDE_COUNT = 5
-  const emblaSlides = [
-    'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/h8iz87yva1tkppnnlth6',
-    'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/mmifrlnojtmceogzaztw',
-     'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/lwv6hzfniiifgzkjuyer',
-  ]
+  const SLIDE_COUNT = 3
+  const SLIDES =[0,1,2]// Array.from(Array(SLIDE_COUNT).keys())
+
+
 
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      {/* <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-6 text-center small:p-16 p-8"> */}
-        <EmblaCarousel slides={emblaSlides} options={emblaOptions} />
+
+    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle mt-10">
+
+      <div className="absolute inset-0 z-10  flex flex-col items-center justify-center gap-6 text-center small:p-2 p-4">
+      	<EmblaCarousel slides={SLIDES} options={emblaOptions} />
         <a href="/store">
           <Button variant="primary" size="xlarge">
             Get Shopping
             <ShoppingBag />
           </Button>
         </a>
-      {/* </div> */}
+       </div>
     </div>
+
   )
 }
 

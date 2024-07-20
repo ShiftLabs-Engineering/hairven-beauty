@@ -1,5 +1,6 @@
 import { Metadata } from "next"
 import "styles/globals.css"
+import 'styles/embla.css'
 import "linq-extensions"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
