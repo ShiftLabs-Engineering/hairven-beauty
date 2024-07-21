@@ -128,6 +128,7 @@ const featureFlags = {
 	product_categories: true,
 	order_editing: true,
 	sales_channels: true,
+
 };
 /** @type {import('@medusajs/medusa').ConfigModule} */
 module.exports = {
