@@ -597,7 +597,7 @@ export const getCollectionsList = cache(async function (
 ): Promise<{ collections: ProductCollection[]; count: number }> {
   const collections = await medusaClient.collections
     .list({ limit, offset }, { next: { tags: ["collections"] } })
-    .then(({ collections }) => collections)
+    .then(({ collections }) => collections.orderBy(k=>k.created_at).toArray())
     .catch((err) => {
       throw err
     })
