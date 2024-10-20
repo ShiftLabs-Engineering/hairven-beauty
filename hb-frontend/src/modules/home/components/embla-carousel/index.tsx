@@ -126,7 +126,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     const emblaSlides = [
       'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/h8iz87yva1tkppnnlth6',
       'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/mmifrlnojtmceogzaztw',
-       'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/lwv6hzfniiifgzkjuyer'
+       'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/lwv6hzfniiifgzkjuyer',
+       'https://res.cloudinary.com/dkqiokfok/image/upload/f_auto,q_auto/v1/hairven-beauty/carousel/sq4zcaia8on2vlv6tze9'
     ]
   return (
     <div className="embla pt-4">

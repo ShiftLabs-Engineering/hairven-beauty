@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useMemo, useRef } from "react"
-
+import 'linq-extensions'
 import NativeSelect, {
   NativeSelectProps,
 } from "@modules/common/components/native-select"
@@ -23,7 +23,7 @@ const CountrySelect = forwardRef<
       return []
     }
 
-    return region.countries.map((country) => ({
+    return region.countries.orderBy(k=>k.display_name).toArray().map((country) => ({
       value: country.iso_2,
       label: country.display_name,
     }))

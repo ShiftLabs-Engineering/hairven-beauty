@@ -1,1 +1,7 @@
 .DS_Store
+hb-frontend2
+hb-backend/.env.railway
+dump-hairvendb-202408181704.sql
+dump-hairvendb-202408181703.sql
+dump-hairvendb-202408181654.sql
+dump-hairvendb-202408181652.sql

@@ -1,16 +1,15 @@
 {
-	"name": "medusa-starter-default",
+	"name": "hairven-beauty-admin",
 	"version": "0.0.1",
-	"description": "A starter for Medusa projects.",
-	"author": "Medusa (https://medusajs.com)",
-	"license": "MIT",
+	"description": "Hairven Beauty store admin",
+	"author": "shiftlabs.xyz",
+	"license": "NP",
 	"keywords": [
-		"sqlite",
 		"postgres",
 		"typescript",
 		"ecommerce",
 		"headless",
-		"medusa"
+		"hairvenbeauty"
 	],
 	"scripts": {
 		"clean": "cross-env ./node_modules/.bin/rimraf dist",
