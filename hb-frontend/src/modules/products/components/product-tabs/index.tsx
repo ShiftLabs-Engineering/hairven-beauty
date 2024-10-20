@@ -94,11 +94,11 @@ const ShippingInfoTab = () => {
             <span className="font-semibold">Fast delivery</span>
             <p className="max-w-sm">
               Your package will arrive in 3-5 business days at your pick up
-              location or in the comfort of your home.
+              location usually the closest PostNet to your location.
             </p>
           </div>
         </div>
-        <div className="flex items-start gap-x-2">
+        {/* <div className="flex items-start gap-x-2">
           <Refresh />
           <div>
             <span className="font-semibold">Simple exchanges</span>
@@ -107,8 +107,8 @@ const ShippingInfoTab = () => {
               product for a new one.
             </p>
           </div>
-        </div>
-        <div className="flex items-start gap-x-2">
+        </div> */}
+        {/* <div className="flex items-start gap-x-2">
           <Back />
           <div>
             <span className="font-semibold">Easy returns</span>
@@ -118,7 +118,7 @@ const ShippingInfoTab = () => {
               is hassle-free.
             </p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   )
